@@ -99,7 +99,7 @@ def reshape_recommendations(isbn):
 
                 { # match processing stage 
                     "$match": # equal to find
-                    { "_id": { "$ne": isbn } } 
+                    {'ISBN': {'$ne': isbn}} #{ "$ne": ["ISBN",isbn] } 
                 },
                 { # group processing stage 
                     "$group":
@@ -112,13 +112,15 @@ def reshape_recommendations(isbn):
                     "$sort": 
                     { "Count" : -1,"Rating" : -1 } 
                 },
+                { "$skip": 1 },
+                { # limit output
+                    "$limit" : 10 },
                 { # out processing stage 
                     "$out":"recommendations_reshaped"
                 }
             ]    
 
     db.recommendations.aggregate(reshape_pipline) # use pipeline
-    db.recommendations_reshaped.delete_one({"_id": isbn}) # why is this not working ?!
 
     # inspect results
 '''    

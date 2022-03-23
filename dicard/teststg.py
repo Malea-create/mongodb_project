@@ -1,45 +1,44 @@
 import pymongo
 from pymongo import MongoClient
-import functions
 import pprint
 
 myclient = pymongo.MongoClient("mongodb://localhost:27017/")
 mydb = myclient["mydatabase"]
 
-mylist = [
+info = [
   { "name": "William", "address": "Central st 954"},
   { "name": "Chuck", "address": "Main Road 989"},
   { "name": "Viola", "address": "Sideway 1633"}
 ]
 
-#mydb.customers.insert_many(mylist)
+hobbies = [
+  { "name": "William", "hobby": "Basketball"},
+  { "name": "Chuck", "hobby": "Soccer"},
+  { "name": "Viola", "hobby": "Ballet"}
+]
+
+mydb.customers_info.insert_many(info)
+mydb.customers_hobbies.insert_many(hobbies)
 
 pprint.pprint ( mydb.list_collection_names() ) 
 
-cursor = mydb.customers.find()
-for doc in cursor:
-    pprint.pprint (doc)
-
 pipeline = [ # pipline = array of multiple elements
 
-            { # match processing stage 
-                "$match": # equal to find
-                { "name": { "$ne": "Viola" } } # value/ querie
-            },
-            { 
-                "$merge": 
-                {"into": "newcoll",
-                "on": "_id",
-                "whenMatched": "keepExisting", 
-                "whenNotMatched": "insert"  }
+            {"$lookup":
+                {
+                "from": "customers_hobbies",
+                "localField": "name",
+                "foreignField": "name",
+                "as": "hobbies"
+                }
             }
         ]
 
-mydb.customers.aggregate(pipeline)
+mydb.customers_info.aggregate(pipeline)
 
-cursor = mydb.newcoll.find()
+cursor = mydb.customers_info.find()
+
 for doc in cursor:
-    pprint.pprint( "Inside the newcoll:" )
     pprint.pprint (doc)
 
 '''

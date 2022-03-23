@@ -1,12 +1,12 @@
 import tkinter as tk
 from urllib import request
 from matplotlib import image
-import pymongo
 from pymongo import MongoClient
 from tkinter import *
 from tkinter import ttk
 from tokenize import String
 from matplotlib.pyplot import text
+import pandas as pd
 
 
 from core import get_recommendations # get logic
@@ -29,60 +29,40 @@ def get_result ():
     myLabel = Label(search_book, text=drop.get())
     myLabel.grid(row=1, column=2, padx=10)
 
-    result = get_recommendations(drop.get())
+    get_recommendations(drop.get())
 
-    myLabel = Label(search_book, text=result[1])
-    myLabel.grid(row=3, column=2, padx=10)
+    # Make a query to the specific DB and Collection
+    cursor = db.recommendations_reshaped.find()
 
-    myLabel = Label(search_book, text=result[2])
-    myLabel.grid(row=4, column=2, padx=10)
+    # Expand the cursor and construct the DataFrame
+    df =  pd.DataFrame(list(cursor)) # for faster results and better accessebility
 
-    myLabel = Label(search_book, text=result[3])
-    myLabel.grid(row=5, column=2, padx=10)
+    for i in range(5):
+        row = 2 + i
+        result_box (df.iat[i,0], df.iat[i,1], df.iat[i,2], row, 2) # check result
 
-    myLabel = Label(search_book, text=result[4])
-    myLabel.grid(row=6, column=2, padx=10)
 
-    myLabel = Label(search_book, text=result[5])
-    myLabel.grid(row=7, column=2, padx=10)
-    
-    '''
-    image_url = "http://images.amazon.com/images/P/0439095026.01.MZZZZZZZ.jpg" #doc["Image_URL_M"]
-    title = "Titel"#str ( doc["Book_Title"])
-    author = "Author"#str ( doc["Book_Author"])
-    result_box(image_url, title, author,3,2)
-
-    for doc in result:
-            # def parameter 
-        image_url = "http://images.amazon.com/images/P/0439095026.01.MZZZZZZZ.jpg" #doc["Image_URL_M"]
-        title = "Titel"#str ( doc["Book_Title"])
-        author = "Author"#str ( doc["Book_Author"])
-        print (image_url, title, author)
-        #rating = db.recommendations_reshaped.find_one({"_id":result})["Rating"]
-        #count = db.recommendations_reshaped.find_one({"_id":result})["Count"]
-
-        result_box(image_url, title, author,3,2)
-        '''
-        
-    
-'''
-def result_box(image_url, title, author, row, column):
+def result_box(isbn, rating, count, row, column):
 
     # create labels
-    book_info = Label(search_book, text= title + "/n written by" + author)
-    book_info.grid(row=row, column=column, padx=10)
-    #book_recomm = Label(search_book, text= "Rated:" + rating + " Read by:" + count + " others")
-    #book_recomm.grid(row=row, column=column, padx=10)
+    #book_info = Label(search_book, text= title + "/n written by" + author)
+    #book_info.grid(row=row, column=column, padx=10)
+    book_recomm = Label(search_book, text= "Has been rated " + str(rating) + " by " + str(count) + " other readers who also read your book")
+    book_recomm.grid(row=row, column=column, padx=10)
 
+    '''
     # add image
     response = requests.get(image_url)
     img_data = response.content
     img = ImageTk.PhotoImage(Image.open(BytesIO(img_data)))
     panel = tk.Label(search_book, image=img)
     panel.pack(side="bottom", fill="both", expand="yes")
-'''
+    '''
+
 
 options = ["Tell Me This Isn't Happening", "New Vegetarian: Bold and Beautiful Recipes for Every Occasion"]
+
+# Layout of Grid
 
 # Label
 search_box_label = Label(search_book, text="Search for Book")

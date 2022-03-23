@@ -2,6 +2,7 @@ import pymongo
 from pymongo import MongoClient
 import setup_functions
 import pprint
+import pandas as pd
 import pipelines
 
 '''
@@ -56,18 +57,16 @@ def get_recommendations(user_input):
     # reshape recommendations
 
     pipelines.reshape_recommendations(isbn)
-
+'''
     # get top 5 out of the recommendation collection and save in array
 
-    recommendation_results = db.recommendations_reshaped.find().limit(6) # get frist 10 records (high rated)
-    
     top5_results = []
     
     for doc in recommendation_results:
         top5_results.append(doc["_id"])
     
     return top5_results
-    '''
+
     top5_results_new = []
 
     for doc in recommendation_results:
@@ -78,17 +77,28 @@ def get_recommendations(user_input):
         top5_results.append(result)
     
     return top5_results_new
-    '''
+'''
+
 
 
     # inspect results
 '''
-    for doc in recommendation_results: # get result and additional info
-            rating = str ( doc["Rating"] )
-            count = str ( doc["Count"] )
-            isbn = doc["_id"]
-            pprint.pprint( db.books.find_one({"ISBN":doc["_id"]})["Book_Title"]) 
-            pprint.pprint( "Rating: " + rating + " / ISBN: " + isbn + " / Count: " + count)
+get_recommendations("Tell Me This Isn't Happening")
+
+recommendation_results = db.recommendations_reshaped.find().limit(5) # get frist 10 records (high rated)
+
+for doc in recommendation_results: # get result and additional info
+    rating = str ( doc["Rating"] )
+    count = str ( doc["Count"] )
+    isbn = doc["_id"]
+    pprint.pprint( db.books.find_one({"ISBN":doc["_id"]})["Book_Title"]) 
+    pprint.pprint( "Rating: " + rating + " / ISBN: " + isbn + " / Count: " + count)
 '''
 
+# Make a query to the specific DB and Collection
+cursor = db.recommendations_reshaped.find()
 
+# Expand the cursor and construct the DataFrame
+df =  pd.DataFrame(list(cursor))
+
+print (df)
