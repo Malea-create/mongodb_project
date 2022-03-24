@@ -2,7 +2,6 @@ import pymongo
 from pymongo import MongoClient
 import setup_functions
 import pprint
-import pandas as pd
 import pipelines
 
 '''
@@ -82,23 +81,10 @@ def get_recommendations(user_input):
 
 
     # inspect results
-'''
+
 get_recommendations("Tell Me This Isn't Happening")
 
 recommendation_results = db.recommendations_reshaped.find().limit(5) # get frist 10 records (high rated)
 
 for doc in recommendation_results: # get result and additional info
-    rating = str ( doc["Rating"] )
-    count = str ( doc["Count"] )
-    isbn = doc["_id"]
-    pprint.pprint( db.books.find_one({"ISBN":doc["_id"]})["Book_Title"]) 
-    pprint.pprint( "Rating: " + rating + " / ISBN: " + isbn + " / Count: " + count)
-'''
-
-# Make a query to the specific DB and Collection
-cursor = db.recommendations_reshaped.find()
-
-# Expand the cursor and construct the DataFrame
-df =  pd.DataFrame(list(cursor))
-
-print (df)
+    doc

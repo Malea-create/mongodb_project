@@ -1,12 +1,13 @@
+
 import tkinter as tk
-from urllib import request
-from matplotlib import image
 from pymongo import MongoClient
 from tkinter import *
 from tkinter import ttk
 from tokenize import String
 from matplotlib.pyplot import text
 import pandas as pd
+
+from PIL import ImageTk,Image
 
 
 from core import get_recommendations # get logic
@@ -37,27 +38,27 @@ def get_result ():
     # Expand the cursor and construct the DataFrame
     df =  pd.DataFrame(list(cursor)) # for faster results and better accessebility
 
+    url = df.iat[0,6]
+    print(url)
+    url="http://images.amazon.com/images/P/0439095026.01.MZZZZZZZ.jpg"
+
     for i in range(5):
+        i+1 # skip first book = search input
         row = 2 + i
-        result_box (df.iat[i,0], df.iat[i,1], df.iat[i,2], row, 2) # check result
+        #result_box (df.iat[i,1], df.iat[i,2], df.iat[i,3],df.iat[i,4], df.iat[i,5], df.iat[i,6], row, 2) 
 
 
-def result_box(isbn, rating, count, row, column):
+def result_box(title, author, isbn, rating, count, url, row, column):
 
     # create labels
-    #book_info = Label(search_book, text= title + "/n written by" + author)
-    #book_info.grid(row=row, column=column, padx=10)
+    book_info = Label(search_book, text= str(title) + "/n written by" + str(author))
+    book_info.grid(row=row, column=column, padx=10)
     book_recomm = Label(search_book, text= "Has been rated " + str(rating) + " by " + str(count) + " other readers who also read your book")
-    book_recomm.grid(row=row, column=column, padx=10)
+    book_recomm.grid(row=(row), column=column, padx=10)
 
-    '''
-    # add image
-    response = requests.get(image_url)
-    img_data = response.content
-    img = ImageTk.PhotoImage(Image.open(BytesIO(img_data)))
-    panel = tk.Label(search_book, image=img)
-    panel.pack(side="bottom", fill="both", expand="yes")
-    '''
+    image_1 = ImageTk.PhotoImage(Image.open("titelpic.jpeg"))
+    image_set = Label(image=image_1)
+    image_set.pack(side="bottom", fill="both", expand="yes")
 
 
 options = ["Tell Me This Isn't Happening", "New Vegetarian: Bold and Beautiful Recipes for Every Occasion"]

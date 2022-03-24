@@ -112,9 +112,26 @@ def reshape_recommendations(isbn):
                     "$sort": 
                     { "Count" : -1,"Rating" : -1 } 
                 },
-                { "$skip": 1 },
                 { # limit output
                     "$limit" : 10 },
+                {"$lookup":
+                    {
+                    "from": "books",
+                    "localField": "_id",
+                    "foreignField": "ISBN",
+                    "as": "book_info"
+                    }
+                },
+                { "$project": 
+                    {
+                    "Title": "$book_info.Book_Title",
+                    "Author": "$book_info.Book_Author",
+                    "ISBN": "$_id", 
+                    "Rating": "$Rating",     
+                    "Count": "$Count", 
+                    "Image_URL": "$book_info.Image_URL_M",   
+                    }
+                },
                 { # out processing stage 
                     "$out":"recommendations_reshaped"
                 }
