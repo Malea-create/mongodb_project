@@ -47,8 +47,8 @@ def get_result ():
     url="http://images.amazon.com/images/P/0439095026.01.MZZZZZZZ.jpg"
     '''
     url="http://images.amazon.com/images/P/0439095026.01.MZZZZZZZ.jpg"
-    response = requests.get(url)
-    img = Image.open(BytesIO(response.content))
+    img = requests.get(url)
+    #img = Image.open(BytesIO(response.content))
     image_1 = ImageTk.PhotoImage(Image.open(img))
     label = Label(image=image_1)
     label.image = image_1 # keep a reference!
