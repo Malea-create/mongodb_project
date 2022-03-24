@@ -5,15 +5,19 @@ import pprint
 import pipelines
 import pandas as pd
 
-'''
-1) Create Connection/Db/Collections
-2) Create Piplines (Input: Titel -> Retrieve ISBN, Users how read Isbn, all other ISBNs read by user)
-3) Link Pilines together
 
-take care: input can not be included in result
-Next step:
-- add error handeling
-- remove inspection lines
+### Create Database, Collections and callable Algorightm ###
+
+'''
+
+the main purpose of this file is to call all funktions from other files in order to get one function,
+that includes the program logic/ alogrightm
+
+therefore it includes:
+- collection_setup() create collections and uses the setup_functions to create collections
+- get_recommendations() link the pielines together and hands down the results from the previous aggregations,
+  save result in new collection called recommendations_reshaped
+
 '''
 
 # Establish connection with Mongo DB and create DB
@@ -24,26 +28,27 @@ client = MongoClient('mongodb://localhost:27017') # connect now to save db, ...
 db_name = 'BookCrossing_DB'
 db = client[db_name] # Creating a database
 
-def collection_setup():
+def collection_setup(): 
 
     # Create collections for each csv file 
 
     setup_functions.add_collection_to_db('data/BX-Book-Ratings.csv', db, 'book_ratings') # pass csv file path and collection name 
     setup_functions.add_collection_to_db('data/BX-Books.csv', db, 'books') # pass csv file path and collection name 
     setup_functions.add_collection_to_db('data/BX-Users.csv', db, 'user') # pass csv file path and collection name 
-    setup_functions.show_collections(db, db_name)
+    setup_functions.show_collections(db, db_name) # inspect results
 
 
 def get_recommendations(user_input):
 
     db.recommendations.drop() # needs to be emptied every time (storage for new results)
-    pipelines.get_isbn(user_input) # start Process
+
+    pipelines.get_isbn(user_input) # search for matching isbn to user_input /start Process
 
     # pass isbn results to next pipline
 
     isbn_results = db.isbns.find()
 
-    for doc in isbn_results:
+    for doc in isbn_results: # iterate over result and call next function for each iten
             pipelines.get_userids(doc["_id"])
             isbn = doc
 
@@ -51,7 +56,7 @@ def get_recommendations(user_input):
 
     userid_results = db.readers.find().limit(50) # else too time consuming
 
-    for doc in userid_results:
+    for doc in userid_results: # iterate over result and call next function for each iten
             pipelines.get_books_w_merge(doc["_id"])
 
     # reshape recommendations
