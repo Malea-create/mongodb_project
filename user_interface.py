@@ -7,7 +7,11 @@ from tokenize import String
 from matplotlib.pyplot import text
 import pandas as pd
 
+#imports for discplaying url images
 from PIL import ImageTk,Image
+import urllib.request 
+from io import BytesIO
+import requests
 
 
 from core import get_recommendations # get logic
@@ -29,7 +33,7 @@ def get_result ():
 
     myLabel = Label(search_book, text=drop.get())
     myLabel.grid(row=1, column=2, padx=10)
-
+    '''
     get_recommendations(drop.get())
 
     # Make a query to the specific DB and Collection
@@ -41,6 +45,15 @@ def get_result ():
     url = df.iat[0,6]
     print(url)
     url="http://images.amazon.com/images/P/0439095026.01.MZZZZZZZ.jpg"
+    '''
+    url="http://images.amazon.com/images/P/0439095026.01.MZZZZZZZ.jpg"
+    response = requests.get(url)
+    img = Image.open(BytesIO(response.content))
+    image_1 = ImageTk.PhotoImage(Image.open(img))
+    label = Label(image=image_1)
+    label.image = image_1 # keep a reference!
+    label.grid(row=3, sticky=W)
+
 
     for i in range(5):
         i+1 # skip first book = search input
@@ -56,9 +69,11 @@ def result_box(title, author, isbn, rating, count, url, row, column):
     book_recomm = Label(search_book, text= "Has been rated " + str(rating) + " by " + str(count) + " other readers who also read your book")
     book_recomm.grid(row=(row), column=column, padx=10)
 
-    image_1 = ImageTk.PhotoImage(Image.open("titelpic.jpeg"))
-    image_set = Label(image=image_1)
-    image_set.pack(side="bottom", fill="both", expand="yes")
+    #raw_data = urllib.request.urlopen(cover).read()
+    #im = Image.open(io.BytesIO(raw_data))
+    #image_1 = ImageTk.PhotoImage(Image.open("titelpic.jpeg"))
+    #image_set = Label(image=image_1)
+    #image_set.grid(row=6, sticky=W)
 
 
 options = ["Tell Me This Isn't Happening", "New Vegetarian: Bold and Beautiful Recipes for Every Occasion"]

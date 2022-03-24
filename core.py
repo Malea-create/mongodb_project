@@ -56,35 +56,17 @@ def get_recommendations(user_input):
     # reshape recommendations
 
     pipelines.reshape_recommendations(isbn)
-'''
-    # get top 5 out of the recommendation collection and save in array
-
-    top5_results = []
-    
-    for doc in recommendation_results:
-        top5_results.append(doc["_id"])
-    
-    return top5_results
-
-    top5_results_new = []
-
-    for doc in recommendation_results:
-        result = []
-        result.append(doc["_id"])
-        result.append(doc["Rating"])
-        result.append(doc["Count"])
-        top5_results.append(result)
-    
-    return top5_results_new
-'''
-
-
 
     # inspect results
-
+'''
 get_recommendations("Tell Me This Isn't Happening")
 
 recommendation_results = db.recommendations_reshaped.find().limit(5) # get frist 10 records (high rated)
 
 for doc in recommendation_results: # get result and additional info
-    doc
+    rating = str ( doc["Rating"] )
+    count = str ( doc["Count"] )
+    isbn = doc["_id"]
+    pprint.pprint( db.books.find_one({"ISBN":doc["_id"]})["Book_Title"]) 
+    pprint.pprint( "Rating: " + rating + " / ISBN: " + isbn + " / Count: " + count)
+'''
