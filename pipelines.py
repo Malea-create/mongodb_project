@@ -57,11 +57,17 @@ def get_userids (isbn):
 
             { # match processing stage 
                 "$match": # equal to find
-                { "ISBN":isbn } # value/ querie
+                { "ISBN":isbn }, # value/ querie
             },
+
             { # group processing stage 
                 "$group":
-                {"_id":"$UserID"} # get rid of any users who read book twice
+                {"_id":"$UserID", # get rid of any users who read book twice
+                "Rating":{ "$avg": "$BookRating" } }
+            },
+            { # match processing stage 
+                "$match": # equal to find
+                { 'Rating': {'$gt': 4} }, # value/ querie
             },
             { # out processing stage 
                 "$out":"readers" # save documents in new collection
@@ -71,13 +77,15 @@ def get_userids (isbn):
     db.book_ratings.aggregate(users_pipline) # use pipeline on collection
 
     # inspect results
-'''
+    '''  
+
     result = db.readers.find()
     for doc in result:
         pprint.pprint( doc )
 
     pprint.pprint( db.readers.count_documents({}) )
-'''
+    '''
+
 
 #### get all books (isbns) which are read by specific userIDS ####
 
@@ -122,6 +130,10 @@ def reshape_recommendations(isbn):
                     "Count":{ "$count": {}}, # count items which are grouped
                     "Rating":{ "$avg": "$BookRating" } # calculate average rating 
                     }
+                },
+                { # match processing stage 
+                    "$match": # equal to find
+                    {'Rating': {'$gt': 4}} # get all good ratings
                 },
                 { # sort processing stage 
                     "$sort": 

@@ -39,15 +39,16 @@ db = client[db_name] # Creating a database
 
 search_book = Tk() 
 search_book.title("Book Recommendor")
+search_book.iconbitmap('data/bookicon.jpg')
 
 def get_result (): # called by the button to initiate search
 
     # display input
 
-    yoursearch = Label(search_book, text=drop.get()) # displays informations about searched item
+    yoursearch = Label(search_book, text=drop.get(), wraplengt=180) # displays informations about searched item
     yoursearch.grid(row=2, column=2, padx=10)
-    yoursearch_text = Label(search_book, text="Your search: ")
-    yoursearch_text.grid(row=2, column=1, padx=10)
+    yoursearch_text = Label(search_book, text="You might also like: ", wraplengt=180)
+    yoursearch_text.grid(row=2, column=0, padx=10)
 
     # get results
 
@@ -59,13 +60,13 @@ def get_result (): # called by the button to initiate search
 
     # display results
 
-    book_info = Label(search_book, text = "written by " + str(df.iat[0,2])) # further information on the input
+    book_info = Label(search_book, text = "written by " + str(df.iat[0,2][0]), wraplengt=180) # further information on the input
     book_info.grid(row=3, column=2, padx=10)
-    book_recomm = Label(search_book, text= "Rated " + str(int(df.iat[0,4])) + " by " + str(df.iat[0,5]) + " users")
+    book_recomm = Label(search_book, text= "Rated " + str(int(df.iat[0,4])) + " by " + str(df.iat[0,5]) + " users", wraplengt=180)
     book_recomm.grid(row=(4), column=2, padx=10)
 
-    url="http://images.amazon.com/images/P/0439095026.01.MZZZZZZZ.jpg" # df.iat[0,6] # cover of the input
-    response = requests.get(url)
+    url= df.iat[0,6] # cover of the input
+    response = requests.get(url[0])
     image_1 = ImageTk.PhotoImage(Image.open(BytesIO(response.content)))
     label = Label(image=image_1)
     label.image = image_1 # keep a reference!
@@ -80,11 +81,9 @@ def get_result (): # called by the button to initiate search
 
 def result_box(title, author, isbn, rating, count, url, row, column): # create a number of widgets for each result
 
-    url = "http://images.amazon.com/images/P/0439095026.01.MZZZZZZZ.jpg"
-
     # create cover image 
 
-    response = requests.get(url) # read url
+    response = requests.get(url[0]) # read url
     image_1 = ImageTk.PhotoImage(Image.open(BytesIO(response.content))) # creat instance of ImageTK
     label = Label(image=image_1)
     label.image = image_1 # keep a reference
@@ -92,37 +91,51 @@ def result_box(title, author, isbn, rating, count, url, row, column): # create a
 
     row=row+1 # display next item in new row
 
-    book_info = Label(search_book, text= str(title)) # add info about title
+    book_info = Label(search_book, text= str(title[0]), wraplengt=180) # add info about title
     book_info.grid(row=row, column=column, padx=10)
 
     row=row+1
 
-    book_info = Label(search_book, text = "written by" + str(author)) # add info about author
+    book_info = Label(search_book, text = "written by " + str(author[0]), wraplengt=180) # add info about author
     book_info.grid(row=row, column=column, padx=10)
 
     row=row+1
 
-    book_recomm = Label(search_book, text= "Rated " + str(int(rating)) + " by " + str(count) + " users") # add info about rating and counting
+    book_recomm = Label(search_book, text= "Rated " + str(int(rating)) + " by " + str(count) + " users", wraplengt=180) # add info about rating and counting
     book_recomm.grid(row=(row), column=column, padx=10)
 
     
+def get_first_result ():
 
+    get_result()
+    first_search_button.destroy()
+    secound_search_button.grid(row=0, column=2, padx=10)
 
-options = ["Tell Me This Isn't Happening", "New Vegetarian: Bold and Beautiful Recipes for Every Occasion"]
+def get_more_result ():
+
+    #get_result()
+    
+    for child in search_book.children.values():
+        child.grid_forget()
+    
+    search_box_label.grid(row=0, column=0, padx=10, pady=10)
+    secound_search_button.grid(row=0, column=2, padx=10)
+    drop.grid(row=0, column=1, padx=10)
+
 
 # Main Layout of Grid
 
 # Label
-search_box_label = Label(search_book, text="Search for Book")
+search_box_label = Label(search_book, text="Tell me which book you liked: ")
 search_box_label.grid(row=0, column=0, padx=10, pady=10)
 
 # Button
-search_button = Button(search_book, text="Search now", command= get_result)
-search_button.grid(row=0, column=2, padx=10)
+first_search_button = Button(search_book, text="Search for other books you might like", command= get_first_result)
+first_search_button.grid(row=0, column=2, padx=10)
 
-# Drop Down Box
-drop = ttk.Combobox(search_book, values = options)
-drop.current(0) # default
+secound_search_button = Button(search_book, text="Search again ", command= lambda:[get_more_result(), get_result()])
+
+drop = tk.Entry(search_book)
 drop.grid(row=0, column=1, padx=10)
 
 search_book.mainloop() # start displaying window and widgets
