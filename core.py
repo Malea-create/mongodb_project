@@ -3,6 +3,7 @@ from pymongo import MongoClient
 import setup_functions
 import pprint
 import pipelines
+import pandas as pd
 
 '''
 1) Create Connection/Db/Collections
@@ -58,11 +59,15 @@ def get_recommendations(user_input):
     pipelines.reshape_recommendations(isbn)
 
     # inspect results
+
 '''
 get_recommendations("Tell Me This Isn't Happening")
 
 recommendation_results = db.recommendations_reshaped.find().limit(5) # get frist 10 records (high rated)
-
+df =  pd.DataFrame(list(recommendation_results)) # for faster results and better accessebility
+print(df.iat[0,5])
+'''
+'''
 for doc in recommendation_results: # get result and additional info
     rating = str ( doc["Rating"] )
     count = str ( doc["Count"] )

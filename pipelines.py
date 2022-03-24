@@ -140,9 +140,9 @@ def reshape_recommendations(isbn):
     db.recommendations.aggregate(reshape_pipline) # use pipeline
 
     # inspect results
-'''    
-    result = db.recommendations_reshaped.find()
-    for doc in result:
-        pprint.pprint (doc)
-'''
+    '''    
+        result = db.recommendations_reshaped.find()
+        for doc in result:
+            pprint.pprint (doc)
+    '''
     
