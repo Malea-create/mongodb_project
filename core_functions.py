@@ -46,11 +46,10 @@ def get_recommendations(user_input):
 
     # pass isbn results to next pipline
 
-    isbn_results = db.isbns.find()
+    isbn_results = db.isbns.find_one()
+    
+    pipelines.get_userids(isbn_results["_id"])
 
-    for doc in isbn_results: # iterate over result and call next function for each iten
-            pipelines.get_userids(doc["_id"])
-            isbn = doc
 
     # pass user results to next pipline
 
@@ -61,8 +60,13 @@ def get_recommendations(user_input):
 
     # reshape recommendations
 
-    pipelines.reshape_recommendations(isbn)
+    pipelines.reshape_recommendations()
+    
+    cursor = db.recommendations_reshaped.find() # gets data from the resulting collection
 
+    df =  pd.DataFrame(list(cursor)) # construct the df for faster results and better accessebility
+
+    return df
     # inspect results
 
 '''

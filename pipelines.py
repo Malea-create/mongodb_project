@@ -116,14 +116,10 @@ def get_books_w_merge (userid): # reminder: input needs to be integer / eles non
     pprint.pprint( db.recommendations.count_documents({}) )
 '''
 
-def reshape_recommendations(isbn):
+def reshape_recommendations():
 
     reshape_pipline = [ # pipline = array of multiple elements
 
-                { # match processing stage 
-                    "$match": # equal to find
-                    {'ISBN': {'$ne': isbn}} #{ "$ne": ["ISBN",isbn] } 
-                },
                 { # group processing stage 
                     "$group":
                     { "_id":"$ISBN", # get rid of dublicates
