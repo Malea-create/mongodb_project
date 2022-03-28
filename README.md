@@ -6,6 +6,13 @@ Database Anaylsis using MongoDB
 Using this data, the application is able to make 5 recommendations depending on a book title that is given by you as the user. 
 This takes into account which books have received a good rating from readers who also liked your selection.
 
+The application is written in distributed python files. 
+- "main" this is the only executable file to initiate a user interface and call the alrorightm
+- "core_functions" calls functions from other files in order to get one function, that includes the program logic/alogrightm
+- "pipelines" stores all aggregation pipelines for querieing and shaping the collections
+- "setup_functions" stores all functions to properly create collections and check the result
+- "ui_functions" contents the functions to properly display the results in the user interface
+
 This guide will take you through the necessary steps to launch the application and use it successfully.
 
 # File Structure
