@@ -101,7 +101,8 @@ def get_books_w_merge (userid): # reminder: input needs to be integer / eles non
                 "$merge": 
                 {"into": "recommendations",
                 "whenMatched": "keepExisting", 
-                "whenNotMatched": "insert"  } # merge creates nnew collection and adds content each time it is called
+                "whenNotMatched": "insert"  } 
+                # merge creates new collection and adds content each time it is called
             }
         ]
 
