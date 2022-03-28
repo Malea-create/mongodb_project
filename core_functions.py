@@ -9,7 +9,6 @@ import pandas as pd
 ### Create Database, Collections and callable Algorightm ###
 
 '''
-
 the main purpose of this file is to call all funktions from other files in order to get one function,
 that includes the program logic/ alogrightm
 
@@ -17,7 +16,6 @@ therefore it includes:
 - collection_setup() create collections and uses the setup_functions to create collections
 - get_recommendations() link the pielines together and hands down the results from the previous aggregations,
   save result in new collection called recommendations_reshaped
-
 '''
 
 # Establish connection with Mongo DB and create DB
@@ -66,8 +64,9 @@ def get_recommendations(user_input):
 
     df =  pd.DataFrame(list(cursor)) # construct the df for faster results and better accessebility
 
-    return df
-    # inspect results
+    return df # return dataframe as result
+
+# inspect results
 
 '''
 get_recommendations("Tell Me This Isn't Happening")

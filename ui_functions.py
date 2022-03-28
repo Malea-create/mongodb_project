@@ -10,6 +10,18 @@ import requests
 
 import core_functions  # get algorightm
 
+### User Interface Functions ###
+
+'''
+
+this file contents the functions to properly display the results in the user interface
+
+therefore it includes:
+- get_result() calls the algorightm on a user input and issues output of the result
+- result_box() creates several widgets to display information for each resulr
+
+'''
+
 def get_result (search_book, input): # called by the button to initiate search
 
     # display input

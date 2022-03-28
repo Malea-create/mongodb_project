@@ -7,7 +7,6 @@ import pprint
 ### Piplines ###
 
 '''
-
 this file stores all aggregation pipelines for querieing and shaping the collections
 
 Therefore it includes:
@@ -15,7 +14,6 @@ Therefore it includes:
 - get_userids pipeline() gets matching userIDs from the users collection according to the isbn input and saves it in new collection called readers
 - get_books_w_merge pipeline() gets all isbns from the book_rating collection witch match the userID input and saves it in new collection called recommendations
 - reshape_recommendations() pipline reshapes collection input by grouping and counting the isbns 
-
 '''
 
 # Establish connection with Mongo DB and create DB
@@ -109,13 +107,13 @@ def get_books_w_merge (userid): # reminder: input needs to be integer / eles non
     db.book_ratings.aggregate(book_pipline) # use pipeline on collection
 
     # inspect results
-'''
+    '''
     result = db.recommendations.find()
     for doc in result:
         pprint.pprint( doc )
 
     pprint.pprint( db.recommendations.count_documents({}) )
-'''
+    '''
 
 def reshape_recommendations():
 
