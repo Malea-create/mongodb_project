@@ -19,7 +19,7 @@ This guide will take you through the necessary steps to launch the application a
 After opening the zip file you will find next to this readme, a collection of files and a data folder
 the only executable file is called main, it calls the functions in the other files.
 
-![alt text](https://github.com/Malea-cleate/mongodb_project/blob/main/MongoDb-Architecture.png?raw=true)
+![alt text](https://github.com/Malea-create/mongodb_project/blob/5ecb16fb7cc9d054b457332a6889cab78cd06b5d/MongoDb-Architecture.png?raw=true)
 
 
 
