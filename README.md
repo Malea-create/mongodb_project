@@ -21,6 +21,8 @@ the only executable file is called main, it calls the functions in the other fil
 
 ![alt text](https://github.com/Malea-cleate/mongodb_project/blob/main/MongoDb-Architecture.png?raw=true)
 
+
+
 # Starting Mongo DB
 Enter the following commands in your virtual machine terminal to start the database:
 
