@@ -19,20 +19,11 @@ This guide will take you through the necessary steps to launch the application a
 After opening the zip file you will find next to this readme, a collection of files and a data folder
 the only executable file is called main, it calls the functions in the other files.
 
+The application will connect to the databse in Atlas MongoDb. Mongo Db runs on the AWS.
+The following figure depicts the interaction and dataflow of between user, GUI, application, database, and the cloud.
+
 ![alt text](https://github.com/Malea-create/mongodb_project/blob/5ecb16fb7cc9d054b457332a6889cab78cd06b5d/MongoDb-Architecture.png?raw=true)
 
-
-
-# Starting Mongo DB
-Enter the following commands in your virtual machine terminal to start the database:
-
-  sudo systemctl start mongod 
-  (start Mongo DB)
-
-  sudo service mongod status
-  (if started succesfully it should display: "Active: active (running)")
-
-You can now close this terminal window and proceed to the next step
 
 # Verify/Install needed Packeges
 Please make sure that you have installed the following packages/versions and otherwise proceed with the offered download commands.
@@ -40,6 +31,7 @@ Please make sure that you have installed the following packages/versions and oth
 Check your python version:
 
   python3
+  (it should be 3.9.10)
 
 The following is a description to download the packet manager pip to further install the needed liabries for python:
 
