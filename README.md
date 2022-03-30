@@ -74,8 +74,9 @@ The following steps will guide you through the application:
 For example, try searching for the following books:
 
 Translated with www.DeepL.com/Translator (free version)
-- Dating Big Bird
+- Tell Me This Isn't Happening
 - Missing Susan
 - Kitchen Privileges : A Memoir
+- Dating Big Bird
 - Daisy Fay and the Miracle Man
 (you can find more booktitles in the BX-Books.csv in the data folder)
