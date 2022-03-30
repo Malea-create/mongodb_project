@@ -19,7 +19,7 @@ therefore it includes:
 '''
 
 # Establish connection with Mongo DB and create DB
-client = MongoClient('mongodb+srv://Malea:12345678@cluster0.nbcni.mongodb.net/myFirstDatabase?retryWrites=true&w=majority') # connect now to save db, ...
+client = MongoClient('mongodb+srv://Malea:1234@cluster0.nbcni.mongodb.net/myFirstDatabase?retryWrites=true&w=majority') # connect now to save db, ...
 #pprint.pprint(client.list_database_names()) #see availible db
 
 # Create DB in Mongo DB

@@ -22,7 +22,7 @@ the only executable file is called main, it calls the functions in the other fil
 The application will connect to the databse in Atlas MongoDb. Mongo Db runs on the AWS.
 The following figure depicts the interaction and dataflow of between user, GUI, application, database, and the cloud.
 
-![alt text](https://github.com/Malea-create/mongodb_project/blob/5ecb16fb7cc9d054b457332a6889cab78cd06b5d/MongoDb-Architecture.png?raw=true)
+![alt text](https://github.com/Malea-create/mongodb_project/data/blob/5ecb16fb7cc9d054b457332a6889cab78cd06b5d/MongoDb-Architecture.png?raw=true)
 
 
 # Verify/Install needed Packeges
