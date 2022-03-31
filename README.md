@@ -46,11 +46,11 @@ The following is a description to download the packet manager pip to further ins
 
 Now you are ready to instell the packages needed to start the application:
 
-  pip3 install tk
-  pip3 install pymongo
-  pip3 install pandas
-  pip3 install PLC
-  pip3 install dnspython
+ - pip3 install tk
+ - pip3 install pymongo
+ - pip3 install pandas
+ - pip3 install PLC
+ - pip3 install dnspython
 
 # Execute Main
 To start the application, please change to the directory where you saved the files (use dir/cd or for Mac ld/cd).
