@@ -52,6 +52,13 @@ Now you are ready to instell the packages needed to start the application:
  - pip3 install PLC
  - pip3 install dnspython
 
+For Ubuntu you need to add>
+
+-sudo apt-get install python3-pil python3-pil.imagetk
+-sudo apt-get install python3-tk
+
+(you might need to change the commands slightly according to your operation system)
+
 # Execute Main
 To start the application, please change to the directory where you saved the files (use dir/cd or for Mac ld/cd).
 If you are in the mongodh_project folder, do the following:
