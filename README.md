@@ -44,7 +44,7 @@ The following is a description to download the packet manager pip to further ins
   pip3 --version
   (verify the installation by checking the pip version / should be pip 20.3.4)
 
-Now you are ready to instell the packages needed to start the application:
+Now you are ready to install the packages needed to start the application:
 
  - pip3 install tk
  - pip3 install pymongo
@@ -52,7 +52,7 @@ Now you are ready to instell the packages needed to start the application:
  - pip3 install PLC
  - pip3 install dnspython
 
-For Ubuntu you need to add>
+For Ubuntu you need to add:
 
 -sudo apt-get install python3-pil python3-pil.imagetk
 -sudo apt-get install python3-tk
